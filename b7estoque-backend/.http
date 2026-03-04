@@ -1,3 +1,14 @@
 @host = http://localhost:3001
 # @name ping
 GET {{host}}/api/ping
+
+### Create user
+# @name createUser
+POST {{host}}/api/users
+Content-Type: application/json
+
+{
+  "name": "Diones",
+  "email": "diones@example.com",
+  "password": "123456"
+}
