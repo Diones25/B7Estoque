@@ -22,3 +22,9 @@ Content-Type: application/json
   "email": "diones@example.com",
   "password": "123456"
 }
+
+### Logout user
+# @name logoutUser
+POST {{host}}/api/auth/logout
+Content-Type: application/json
+Authorization: Bearer c1c2ca09e72ba0bf5f148ae521ae7b71a1cfc9382ac260a9e5e2155a57144d86
