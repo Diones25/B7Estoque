@@ -12,3 +12,13 @@ Content-Type: application/json
   "email": "diones@example.com",
   "password": "123456"
 }
+
+### Login user
+# @name loginUser
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "diones@example.com",
+  "password": "123456"
+}
