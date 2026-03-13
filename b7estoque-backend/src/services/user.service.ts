@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { eq, isNull } from "drizzle-orm";
 import { db } from "../db/connection";
 import { NewUser, users } from "../db/schema";
 import { formatUser } from "../helpers/formatUser";
@@ -25,6 +25,17 @@ export const createUser = async (data: NewUser) => {
   const user = result[0];
 
   return formatUser(user);
+}
+
+export const listUsers = async (offset: number = 0, limit: number = 10) => {
+  const usersList = await db
+    .select()
+    .from(users)
+    .where(isNull(users.deletedAt))
+    .offset(offset)
+    .limit(limit)
+
+  return usersList.map(formatUser);
 }
 
 export const login = async (email: string, password: string) => {
