@@ -7,5 +7,14 @@ export const formatUser = (user: User) => {
     userWithoutPassword.avatar = `${process.env.BASE_URL}/static/avatars/${userWithoutPassword.avatar}`;
   }
 
-  return userWithoutPassword;
+
+  const { id, name, email, avatar, isAdmin } = userWithoutPassword
+
+  return {
+    id,
+    name,
+    email,
+    avatar,
+    isAdmin
+  }
 }

@@ -51,3 +51,22 @@ export const logout = async (token: string) => {
     .set({ token: null, updatedAt: new Date() })
     .where(eq(users.token, token));
 }
+
+export const getUserById = async (id: string) => {
+  const result = await db
+    .select()
+    .from(users)
+    .where(eq(users.id, id))
+    .limit(1)
+
+  const user = result[0];
+
+  if (!user || user.deletedAt) return null;
+  return user;
+}
+
+export const getUserByIdPublic = async (id: string) => {
+  const user = await getUserById(id);
+  if (!user) return null;
+  return formatUser(user);
+}
