@@ -38,6 +38,15 @@ export const listUsers = async (offset: number = 0, limit: number = 10) => {
   return usersList.map(formatUser);
 }
 
+export const deleteUser = async (id: string) => {
+  const reseult = await db
+    .update(users)
+    .set({ deletedAt: new Date() })
+    .where(eq(users.id, id))
+    .returning();
+  return reseult[0] ?? null;
+}
+
 export const login = async (email: string, password: string) => {
   const user = await getUserByEmail(email);
   if (!user) return null;

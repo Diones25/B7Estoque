@@ -21,3 +21,9 @@ export const getUser = async (req: Request, res: Response) => {
   if (!user) throw new AppError('Usuário não encontrado', 404);
   return res.status(200).json({ error: null, data: user });
 }
+
+export const deleteUser = async (req: Request, res: Response) => {
+  const { id } = userIdSchema.parse(req.params);
+  await userService.deleteUser(id);
+  return res.status(204).json({ error: null, data: null });
+}
