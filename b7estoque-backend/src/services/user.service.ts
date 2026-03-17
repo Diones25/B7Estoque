@@ -47,6 +47,38 @@ export const deleteUser = async (id: string) => {
   return reseult[0] ?? null;
 }
 
+export const updateUser = async (id: string, data: Partial<NewUser>) => {
+  const userToUpdate = await getUserById(id);
+  if (!userToUpdate) throw new AppError('Usuário nao encontrado', 404);
+
+  if (data.email && data.email !== userToUpdate.email) {
+    const emailInUse  = await getUserByEmail(data.email, true);
+    if (emailInUse) {
+      throw new AppError('Em-mail já está em uso', 400);
+    }
+  }
+
+  const updatedData: Partial<NewUser> = { ...data };
+
+  if (data.password) {
+    updatedData.password = await hashPassword(data.password);
+  }
+
+  // TODO: handle avatar upload
+
+  updatedData.updatedAt = new Date();
+  const result = await db
+    .update(users)
+    .set(updatedData)
+    .where(eq(users.id, id))
+    .returning();
+  
+  const user = result[0];
+  if (!user) return null;
+
+  return formatUser(user);
+}
+
 export const login = async (email: string, password: string) => {
   const user = await getUserByEmail(email);
   if (!user) return null;

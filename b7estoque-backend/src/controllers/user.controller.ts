@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { createUserSchema, listUsersSchema, userIdSchema } from '../validators/user.validator';
+import { createUserSchema, listUsersSchema, updateUserSchema, userIdSchema } from '../validators/user.validator';
 import * as userService from '../services/user.service';
 import { AppError } from '../utils/apperror';
 
@@ -26,4 +26,14 @@ export const deleteUser = async (req: Request, res: Response) => {
   const { id } = userIdSchema.parse(req.params);
   await userService.deleteUser(id);
   return res.status(204).json({ error: null, data: null });
+}
+
+export const updateUser = async (req: Request, res: Response) => {
+  const { id } = userIdSchema.parse(req.params);
+  const data = updateUserSchema.parse(req.body);
+
+  // TODO: handle avatar upload
+
+  const updatedUser = await userService.updateUser(id, data);
+  return res.status(200).json({ error: null, data: updatedUser });
 }

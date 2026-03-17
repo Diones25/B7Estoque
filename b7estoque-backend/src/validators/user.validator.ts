@@ -15,3 +15,11 @@ export const listUsersSchema = z.object({
 export const userIdSchema = z.object({
   id: z.uuid("Formato de ID de usuário inválido")
 });
+
+export const updateUserSchema = z.object({
+  name: z.string().min(2, "Nome é obrigatório").max(255).optional(),
+  email: z.email('Formato de e-mail inválido').optional(),
+  password: z.string().min(6, "Senha deve conter no mínimo 6 caracteres").optional(),
+  isAdmin: z.boolean().optional(),
+  avatar: z.string().nullable().optional()
+})

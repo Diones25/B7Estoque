@@ -2,7 +2,7 @@ import { eq } from "drizzle-orm";
 import { db } from "../db/connection";
 import { users } from "../db/schema";
 
-export const getUserByEmail = async (email: string) => {
+export const getUserByEmail = async (email: string, includeDeleted: boolean = false) => {
   const result = await db
     .select()
     .from(users)
@@ -10,7 +10,7 @@ export const getUserByEmail = async (email: string) => {
     .limit(1)
   
   const user = result[0];
-
-  if (!user || user.deletedAt) return null;
+  if (!user) return null;
+  if (user && user.deletedAt && includeDeleted === false) return null;
   return user;
 }
