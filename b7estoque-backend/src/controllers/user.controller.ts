@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { createUserSchema, listUsersSchema, updateUserSchema, userIdSchema } from '../validators/user.validator';
 import * as userService from '../services/user.service';
 import { AppError } from '../utils/apperror';
+import { saveAvatar } from '../services/file.service';
 
 export const createUser = async (req: Request, res: Response) => {
   const data = createUserSchema.parse(req.body);
@@ -32,8 +33,17 @@ export const updateUser = async (req: Request, res: Response) => {
   const { id } = userIdSchema.parse(req.params);
   const data = updateUserSchema.parse(req.body);
 
-  // TODO: handle avatar upload
+  let avatarFileName: string | undefined;
+  if (req.file) {
+    avatarFileName = await saveAvatar(req.file.buffer, req.file.originalname);
+  }
 
-  const updatedUser = await userService.updateUser(id, data);
+  const udpateData = { ...data,}
+
+  if(avatarFileName) {
+    udpateData.avatar = avatarFileName;
+  }
+
+  const updatedUser = await userService.updateUser(id, udpateData);
   return res.status(200).json({ error: null, data: updatedUser });
 }

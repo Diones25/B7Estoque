@@ -7,6 +7,7 @@ import { hashPassword } from "../helpers/hasPassword";
 import { verifyPassword } from "../helpers/verifyPassword";
 import { AppError } from "../utils/apperror";
 import crypto from 'crypto';
+import { deleteAvatar } from "./file.service";
 
 export const createUser = async (data: NewUser) => {
   const existingUser = await getUserByEmail(data.email);
@@ -64,7 +65,9 @@ export const updateUser = async (id: string, data: Partial<NewUser>) => {
     updatedData.password = await hashPassword(data.password);
   }
 
-  // TODO: handle avatar upload
+  if(data.avatar && userToUpdate.avatar && data.avatar !== userToUpdate.avatar) {
+    await deleteAvatar(userToUpdate.avatar);
+  }
 
   updatedData.updatedAt = new Date();
   const result = await db
