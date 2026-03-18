@@ -5,5 +5,5 @@ export const createCategorySchema = z.object({
 });
 
 export const listCategoriesSchema = z.object({
-  includeProductsCount: z.boolean().optional().default(false)
+  includeProductsCount: z.coerce.boolean().optional().default(false)
 });
