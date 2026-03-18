@@ -11,3 +11,7 @@ export const listCategoriesSchema = z.object({
 export const categoryIdSchema = z.object({
   id: z.uuid("Formato de ID de categoria inválido")
 });
+
+export const updateCategorySchema = z.object({
+  name: z.string().min(1, "Nome é obrigatório").max(255).optional()
+});

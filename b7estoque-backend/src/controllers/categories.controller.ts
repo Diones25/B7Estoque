@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { categoryIdSchema, createCategorySchema, listCategoriesSchema } from "../validators/category.validator";
+import { categoryIdSchema, createCategorySchema, listCategoriesSchema, updateCategorySchema } from "../validators/category.validator";
 import * as categoryService from '../services/categories.service';
 import { AppError } from '../utils/apperror';
 
@@ -20,4 +20,12 @@ export const getCategory = async (req: Request, res: Response) => {
   const category = await categoryService.getCategoryById(id);
   if (!category) throw new AppError("Categoria não encontrada", 404);
   return res.status(200).json({ error: null, data: category });
+}
+
+export const updateCategory = async (req: Request, res: Response) => {
+  const { id } = categoryIdSchema.parse(req.params);
+  const data = updateCategorySchema.parse(req.body);
+  const updatedCategory = await categoryService.updateCategory(id, data);
+  if (!updatedCategory) throw new AppError("Categoria não encontrada", 404);
+  return res.status(200).json({ error: null, data: updatedCategory });
 }
