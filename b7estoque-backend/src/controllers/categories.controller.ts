@@ -29,3 +29,10 @@ export const updateCategory = async (req: Request, res: Response) => {
   if (!updatedCategory) throw new AppError("Categoria não encontrada", 404);
   return res.status(200).json({ error: null, data: updatedCategory });
 }
+
+export const deleteCategory = async (req: Request, res: Response) => {
+  const { id } = categoryIdSchema.parse(req.params);
+  const deletedCategory = await categoryService.deleteCategory(id);
+  if (!deletedCategory) throw new AppError("Categoria não encontrada", 404);
+  return res.status(200).json({ error: null, data: null });
+}
