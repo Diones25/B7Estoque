@@ -7,3 +7,7 @@ export const createCategorySchema = z.object({
 export const listCategoriesSchema = z.object({
   includeProductsCount: z.coerce.boolean().optional().default(false)
 });
+
+export const categoryIdSchema = z.object({
+  id: z.uuid("Formato de ID de categoria inválido")
+});

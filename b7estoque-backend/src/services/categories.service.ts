@@ -29,3 +29,14 @@ export const listCategories = async (includeProductsCount: boolean = false) => {
     .where(isNull(categories.deletedAt))
   return categoriesList;
 }
+
+export const getCategoryById = async (id: string) => {
+  const result = await db
+    .select()
+    .from(categories)
+    .where(eq(categories.id, id))
+    .limit(1);
+  const category = result[0];
+  if (!category || category.deletedAt) return null;
+  return category;
+}
