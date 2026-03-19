@@ -15,6 +15,16 @@ export const createProductSchema = z.object({
   path: ['maximumQuantity']
 });
 
+export const updateProductSchema = z.object({
+  name: z.string().min(1, 'Nome é obrigatório').max(255).optional(),
+  categoryId: z.uuid('Formato de ID de categoria inválido').optional(),
+  unitPrice: z.number().int().min(0, 'Preço unitário deve ser um número positivo').optional(),
+  unitType: unitTypeEnum.optional(),
+  quantity: z.coerce.number().min(0, 'Quantidade deve ser um número positivo').default(0).optional().transform(String),
+  minimumQuantity: z.coerce.number().min(0, 'Quantidade mínima deve ser um número positivo').default(0).optional().transform(String),
+  maximumQuantity: z.coerce.number().min(0, 'Quantidade maxima deve ser um número positivo').default(0).optional().transform(String)
+});
+
 export const listProductsSchema = z.object({
   name: z.string().min(2, 'Nome do produto é pequeno').optional(),
   offset: z.coerce.number().int().min(0).optional().default(0),
