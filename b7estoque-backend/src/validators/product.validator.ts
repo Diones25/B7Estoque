@@ -20,3 +20,7 @@ export const listProductsSchema = z.object({
   offset: z.coerce.number().int().min(0).optional().default(0),
   limit: z.coerce.number().int().min(1).optional().default(10)
 });
+
+export const productIdSchema = z.object({
+  id: z.uuid('Formato de ID de produto inválido')
+});
