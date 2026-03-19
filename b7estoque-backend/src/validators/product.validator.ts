@@ -14,3 +14,9 @@ export const createProductSchema = z.object({
   message: 'Quantidade máxima deve ser maior ou igual à quantidade mínima',
   path: ['maximumQuantity']
 });
+
+export const listProductsSchema = z.object({
+  name: z.string().min(2, 'Nome do produto é pequeno').optional(),
+  offset: z.coerce.number().int().min(0).optional().default(0),
+  limit: z.coerce.number().int().min(1).optional().default(10)
+});
