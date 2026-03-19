@@ -29,3 +29,10 @@ export const updateProduct = async (req: Request, res: Response) => {
   if (!updatedProduct) throw new AppError('Produto não encontrado', 404);
   return res.status(200).json({ error: null, data: updatedProduct });
 }
+
+export const deleteProduct = async (req: Request, res: Response) => {
+  const { id } = productIdSchema.parse(req.params);
+  const deletedProduct = await productService.deleteProduct(id);
+  if (!deletedProduct) throw new AppError('Produto não encontrado', 404);
+  return res.status(200).json({ error: null, data: null });
+}

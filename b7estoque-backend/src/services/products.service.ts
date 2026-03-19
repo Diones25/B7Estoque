@@ -80,3 +80,13 @@ export const updateProduct = async (id: string, data: Partial<NewProduct>) => {
   if(!result[0]) return null;
   return result[0];
 }
+
+export const deleteProduct = async (id: string) => {
+  const result = await db
+    .update(products)
+    .set({ deletedAt: new Date() })
+    .where(and(eq(products.id, id)))
+    .returning();
+  if(!result[0]) return null;
+  return result[0];
+}
