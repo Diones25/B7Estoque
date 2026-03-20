@@ -23,3 +23,9 @@ export const getLowStockProducts = async (req: Request, res: Response) => {
   const data = await dashboardService.getLowStockProducts();
   return res.status(200).json({ error: null, data });
 }
+
+export const getStagnantProducts = async (req: Request, res: Response) => {
+  const query = dateRangeSchema.parse(req.query);
+  const data = await dashboardService.getStagnantProducts(query);
+  return res.status(200).json({ error: null, data });
+}
