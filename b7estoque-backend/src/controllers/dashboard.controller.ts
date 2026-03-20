@@ -18,3 +18,8 @@ export const getMovesGraph = async (req: Request, res: Response) => {
   const data = await dashboardService.getMovesGraph(query);
   return res.status(200).json({ error: null, data });
 }
+
+export const getLowStockProducts = async (req: Request, res: Response) => {
+  const data = await dashboardService.getLowStockProducts();
+  return res.status(200).json({ error: null, data });
+}

@@ -1,4 +1,4 @@
-import { and, eq, gte, isNull, lte, sql, sum } from "drizzle-orm";
+import { and, eq, gte, isNull, lte, sql } from "drizzle-orm";
 import { db } from "../db/connection";
 import { moves, products } from "../db/schema";
 import { DateRangeInput } from "../validators/dashboard.validator";
@@ -77,6 +77,19 @@ export const getMovesGraph = async (range: DateRangeInput) => {
     .where(and(...conditions))
     .groupBy(dateFormated)
     .orderBy(dateFormated);
+
+  return results;
+}
+
+export const getLowStockProducts = async () => {
+  const results = await db
+    .select()
+    .from(products)
+    .where(and(
+      isNull(products.deletedAt),
+      sql`${products.quantity} <= (${products.minimumQuantity} * 1.1)`
+    ))
+    .orderBy(products.quantity);
 
   return results;
 }
