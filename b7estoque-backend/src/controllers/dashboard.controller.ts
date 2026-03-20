@@ -12,3 +12,9 @@ export const getMovesSummary = async (req: Request, res: Response) => {
   const data = await dashboardService.getMovesSummary(query);
   return res.status(200).json({ error: null, data });
 }
+
+export const getMovesGraph = async (req: Request, res: Response) => {
+  const query = dateRangeSchema.parse(req.query);
+  const data = await dashboardService.getMovesGraph(query);
+  return res.status(200).json({ error: null, data });
+}
